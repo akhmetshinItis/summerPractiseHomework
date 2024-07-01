@@ -1,8 +1,5 @@
-
-import android.app.Activity
+package com.example.homework
 import android.os.Bundle
-import android.widget.Button
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.text.isDigitsOnly
 import androidx.core.widget.doOnTextChanged
@@ -31,21 +28,21 @@ class MainActivity : AppCompatActivity() {
 
         viewBinding?.raceBtn?.setOnClickListener{
             val participants = viewBinding?.amountOfParticipants?.text.toString().toInt()
-            val winner = startRaces(GetParticipants(participants))
+            val winner = startRaces(getParticipants(participants))
             println("race winner - ${winner.brand + " " + winner.model}")
         }
     }
 
-    private fun GetParticipants(n: Int): MutableList<Car> {
+    private fun getParticipants(n: Int): MutableList<Car> {
         val brands = listOf("BMW", "Lada", "Mercedes", "Mazda", "Chevrolet")
         val raceParticipants = mutableListOf<Car>()
         for (i in 0 until n) {
             val car = RandomCarsBuilder(brands.random())
             val methodArray = arrayOf(
-                { car.BuildRandomCrossover() },
-                { car.BuildRandomHatchback() },
-                { car.BuildRandomSupercar() },
-                { car.BuildRandomRoadster() }
+                { car.buildRandomCrossover() },
+                { car.buildRandomHatchback() },
+                { car.buildRandomSupercar() },
+                { car.buildRandomRoadster() }
             )
 
             raceParticipants.add(methodArray.random().invoke())
@@ -56,7 +53,7 @@ class MainActivity : AppCompatActivity() {
         return raceParticipants
     }
 
-    private fun Race(p1 : Car, p2 : Car) : Car{
+    private fun race(p1 : Car, p2 : Car) : Car {
         return if(p1.to100 > p2.to100) p1 else p2
     }
 
@@ -71,7 +68,7 @@ class MainActivity : AppCompatActivity() {
             for (i in 0 until numPairs) {
                 val p1 = currentParticipants[i * 2]
                 val p2 = currentParticipants[i * 2 + 1]
-                val winner = Race(p1, p2)
+                val winner = race(p1, p2)
                 println("Гонка между ${p1.brand + " " + p1.model} и ${p2.brand + " " + p2.model}," +
                         " Победитель: ${winner.brand + " " + winner.model}")
                 nextRoundParticipants.add(winner)
@@ -97,7 +94,7 @@ class MainActivity : AppCompatActivity() {
         val year: Int,
         val to100: Double
     ) {
-        open fun ShowInfo() {
+        open fun showInfo() {
             print("Basic CarInfo $brand $model $color $year 0-100km/h - $to100 ")
         }
     }
@@ -110,8 +107,8 @@ class MainActivity : AppCompatActivity() {
         to100: Double,
         val transmission: String
     ) : Car(brand, model, color, year, to100) {
-        override fun ShowInfo() {
-            super.ShowInfo()
+        override fun showInfo() {
+            super.showInfo()
             println("Additional Info: $transmission")
         }
     }
@@ -125,8 +122,8 @@ class MainActivity : AppCompatActivity() {
         val maxSpeed: Int,
         val doors: Int
     ) : Car(brand, model, color, year, to100) {
-        override fun ShowInfo() {
-            super.ShowInfo()
+        override fun showInfo() {
+            super.showInfo()
             println("Additional Info:  max Speed - $maxSpeed, doors amount - $doors")
         }
     }
@@ -140,8 +137,8 @@ class MainActivity : AppCompatActivity() {
         val trunkVolume: Int,
         val cabinCapacity: Int
     ) : Car(brand, model, color, year, to100) {
-        override fun ShowInfo() {
-            super.ShowInfo()
+        override fun showInfo() {
+            super.showInfo()
             println("Additional Info: trunk V - $trunkVolume, Cabin Capacity - $cabinCapacity")
         }
     }
@@ -155,8 +152,8 @@ class MainActivity : AppCompatActivity() {
         val hp: Int,
         val maxSpeed: Int
     ) : Car(brand, model, color, year, to100) {
-        override fun ShowInfo() {
-            super.ShowInfo()
+        override fun showInfo() {
+            super.showInfo()
             println("Additional Info: hp - $hp, max speed - $maxSpeed")
         }
     }
@@ -173,36 +170,36 @@ class MainActivity : AppCompatActivity() {
         val cabinCapacities = listOf(2, 4, 5, 6, 7)
         val hPs = (100..500 step 50).toList()
         val methods: Array<() -> Unit> = arrayOf()
-        fun BuildRandomCar(): Car {
+        fun buildRandomCar(): Car {
             return Car(brand, models.random(), colors.random(), years.random(), to100s.random())
         }
 
-        fun BuildRandomCrossover(): Crossover {
-            val car = BuildRandomCar()
+        fun buildRandomCrossover(): Crossover {
+            val car = buildRandomCar()
             return Crossover(
                 car.brand, car.model, car.color, car.year,
                 car.to100, transmissions.random()
             )
         }
 
-        fun BuildRandomSupercar(): Supercar {
-            val car = BuildRandomCar()
+        fun buildRandomSupercar(): Supercar {
+            val car = buildRandomCar()
             return Supercar(
                 car.brand, car.model, car.color, car.year,
                 car.to100, maxSpeeds.random(), doorsAmounts.random()
             )
         }
 
-        fun BuildRandomHatchback(): Hatchback {
-            val car = BuildRandomCar()
+        fun buildRandomHatchback(): Hatchback {
+            val car = buildRandomCar()
             return Hatchback(
                 car.brand, car.model, car.color, car.year,
                 car.to100, trunkVolumes.random(), cabinCapacities.random()
             )
         }
 
-        fun BuildRandomRoadster(): Roadster {
-            val car = BuildRandomCar()
+        fun buildRandomRoadster(): Roadster {
+            val car = buildRandomCar()
             return Roadster(
                 car.brand, car.model, car.color, car.year,
                 car.to100, hPs.random(), maxSpeeds.random()
