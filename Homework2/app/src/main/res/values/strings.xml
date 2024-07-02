@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">SummerPractice24</string>
+    <string name="send_button_text">Send</string>
+    <string name="main_screen">Main</string>
+    <string name="profile_screen">Profile</string>
+    <string name="settings_screen">Settings</string>
+    <string name="support_screen">Support</string>
+    <string name="info_screen">Information</string>
+
+</resources>
